@@ -195,13 +195,18 @@ for line in game_data:
     zoid_actual_row = line[zoid_row_ix]
 
     move_rank = findmove_rank(options_byep, ep_num, zoid_rot, zoid_col, zoid_row)
+    if move_rank == None and i < len(options_byep):
+        bestoption = options_byep[str(i)][len(options_byep[str(i)])-1]
+        bestout.write(bestoption[0]+"\t"+bestoption[1]+"\t"+bestoption[2]+"\t"+bestoption[3]+"\t"+bestoption[4]+"\t")
+        bestout.write(str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), line[curr_zoid_ix], space))+"\n")
+        repout.write(str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), line[curr_zoid_ix], space))+"\n")        
     if move_rank != None and i < len(options_byep):
         (rank, epdata) = move_rank
 
         bestoption = options_byep[str(i)][len(options_byep[str(i)])-1]
         bestout.write(bestoption[0]+"\t"+bestoption[1]+"\t"+bestoption[2]+"\t"+bestoption[3]+"\t"+bestoption[4]+"\t")
-        bestout.write("\t" + str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), epdata[0], space))+"\n")
-        repout.write("\t" + str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), epdata[0], space))+"\n")
+        bestout.write(str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), epdata[0], space))+"\n")
+        repout.write(str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), epdata[0], space))+"\n")
     if move_rank != None:
         rank_by_ep[ep_num] = str(rank)
         num_options = len(options_byep[ep_num])
@@ -212,7 +217,7 @@ for line in game_data:
         outline += str(num_options)
         outfile.write(outline + "\n")
     else:
-        outline += (ep_num + "\t" + epdata[0] + "\t" + epdata[1] + "\t" + epdata[2] + "\t" + epdata[3] + "\t" + epdata[4] + "\t")
+        outline += (ep_num + "\t" + epdata[0] + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t")
         outline += ("NA" + '\t')
         outline += "NA"
         outfile.write(outline + "\n")
