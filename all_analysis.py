@@ -217,7 +217,7 @@ for line in game_data:
         outline += str(num_options)
         outfile.write(outline + "\n")
     else:
-        outline += (ep_num + "\t" + epdata[0] + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t")
+        outline += (line[ep_num_ix] + "\t" + line[curr_zoid_ix] + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t")
         outline += ("NA" + '\t')
         outline += "NA"
         outfile.write(outline + "\n")
