@@ -7,9 +7,8 @@ from translate_test import zoid_place
 from operator import itemgetter
 
 inputfile= raw_input("Enter data file to analyze: ")
-#reg_best_full_game.tsv
 data = open(inputfile, "rU")
-prediction_file= inputfile[:-4]+"_predictions"
+prediction_file= inputfile[:-4]+"_predictions.tsv"
 outfile = open(prediction_file, "w")
 
 CERLscore = {"landing_height": -152.3582,
@@ -87,12 +86,12 @@ for x in range(len(lines)):
 
 datafile = inputfile
 predictionsfile = prediction_file
-outfile = datafile[:-4] + "_analysis"
+outfile = datafile[:-4] + "_analysis.tsv"
 
-bestfile = datafile[:-4] + "_best_moves_byep"
+bestfile = datafile[:-4] + "_best_moves_byep.tsv"
 bestout = open(bestfile, "w")
 
-repfile = datafile[:-4] + "_zoid_reps"
+repfile = datafile[:-4] + "_zoid_reps.tsv"
 repout = open(repfile, "w")
 
 game_data = open(datafile, "rU")
@@ -123,24 +122,17 @@ ep_num_ix = header.index('episode_number')
 
 rank_by_ep = {}
 
-# bestout.write("Best Move:\n")
-# for i in range(0,len(options_byep)):
-    # bestout.write(str(options_byep[str(i)][len(options_byep[str(i)])-1]) + "\n")
-
 def findmove_rank(options,ep,rot,col,row):
     options = options[ep]
     num_options = len(options)
     for option in options:
-        # option_row= str(int(option[1])+1)
         if option[3] == rot and option[2] == col and option[1] == row:
             return (num_options, option)
         elif num_options!= 0:
             num_options -= 1
         else:
             return (999,[9,9,9,9])
-
-outfile.write("Moves chosen by episode \n")
-
+            
 out_header = ""
 out_header += ("episode_number" + "\t")
 out_header += ("zoid" + "\t")
@@ -152,6 +144,7 @@ out_header += ("move_rank" + "\t")
 out_header += ("num_options")
 
 best_header = ""
+best_header += ("episode_number" + "\t")
 best_header += ("zoid" + "\t")
 best_header += ("move_row" + "\t")
 best_header += ("move_col" + "\t")
@@ -197,17 +190,23 @@ for line in game_data:
     move_rank = findmove_rank(options_byep, ep_num, zoid_rot, zoid_col, zoid_row)
     if move_rank == None and i < len(options_byep):
         bestoption = options_byep[str(i)][len(options_byep[str(i)])-1]
-        bestout.write(bestoption[0]+"\t"+bestoption[1]+"\t"+bestoption[2]+"\t"+bestoption[3]+"\t"+bestoption[4]+"\t")
+        bestout.write(line[ep_num_ix] + "\t" + bestoption[0]+"\t"+bestoption[1]+"\t"+bestoption[2]+"\t"+bestoption[3]+"\t"+bestoption[4]+"\t")
         bestout.write(str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), line[curr_zoid_ix], space))+"\n")
         repout.write(str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), line[curr_zoid_ix], space))+"\n")        
-    if move_rank != None and i < len(options_byep):
+    
+        outline += (line[ep_num_ix] + "\t" + line[curr_zoid_ix] + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t")
+        outline += ("NA" + '\t')
+        outline += "NA"
+        outfile.write(outline + "\n")
+
+    elif move_rank != None and i < len(options_byep):
         (rank, epdata) = move_rank
 
         bestoption = options_byep[str(i)][len(options_byep[str(i)])-1]
-        bestout.write(bestoption[0]+"\t"+bestoption[1]+"\t"+bestoption[2]+"\t"+bestoption[3]+"\t"+bestoption[4]+"\t")
+        bestout.write(line[ep_num_ix] + "\t" + bestoption[0]+"\t"+bestoption[1]+"\t"+bestoption[2]+"\t"+bestoption[3]+"\t"+bestoption[4]+"\t")
         bestout.write(str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), epdata[0], space))+"\n")
         repout.write(str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), epdata[0], space))+"\n")
-    if move_rank != None:
+  
         rank_by_ep[ep_num] = str(rank)
         num_options = len(options_byep[ep_num])
 
@@ -216,11 +215,8 @@ for line in game_data:
         outline += str(rank + "\t")
         outline += str(num_options)
         outfile.write(outline + "\n")
-    else:
-        outline += (line[ep_num_ix] + "\t" + line[curr_zoid_ix] + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t")
-        outline += ("NA" + '\t')
-        outline += "NA"
-        outfile.write(outline + "\n")
+
+
     
     
     
