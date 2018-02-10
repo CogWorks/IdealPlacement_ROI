@@ -132,7 +132,9 @@ def findmove_rank(options,ep,rot,col,row):
             num_options -= 1
         else:
             return (999,[9,9,9,9])
-            
+
+outfile.write("Moves chosen by episode \n")
+
 out_header = ""
 out_header += ("episode_number" + "\t")
 out_header += ("zoid" + "\t")
@@ -187,12 +189,17 @@ for line in game_data:
     zoid_row = line[zoid_lh_ix]
     zoid_actual_row = line[zoid_row_ix]
 
+
     move_rank = findmove_rank(options_byep, ep_num, zoid_rot, zoid_col, zoid_row)
     if move_rank == None and i < len(options_byep):
         bestoption = options_byep[str(i)][len(options_byep[str(i)])-1]
+        row = bestoption[1]
+        col = bestoption[2]
+        rot = bestoption[3]
+ 
         bestout.write(line[ep_num_ix] + "\t" + bestoption[0]+"\t"+bestoption[1]+"\t"+bestoption[2]+"\t"+bestoption[3]+"\t"+bestoption[4]+"\t")
-        bestout.write(str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), line[curr_zoid_ix], space))+"\n")
-        repout.write(str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), line[curr_zoid_ix], space))+"\n")        
+        bestout.write(str(zoid_place( int(col), int(rot), int(row)+2, line[curr_zoid_ix], space))+"\n")
+        repout.write(str(zoid_place( int(col), int(rot), int(row)+2, line[curr_zoid_ix], space))+"\n")        
     
         outline += (line[ep_num_ix] + "\t" + line[curr_zoid_ix] + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t")
         outline += ("NA" + '\t')
@@ -201,11 +208,15 @@ for line in game_data:
 
     elif move_rank != None and i < len(options_byep):
         (rank, epdata) = move_rank
-
         bestoption = options_byep[str(i)][len(options_byep[str(i)])-1]
+
+        row = bestoption[1]
+        col = bestoption[2]
+        rot = bestoption[3]
+
         bestout.write(line[ep_num_ix] + "\t" + bestoption[0]+"\t"+bestoption[1]+"\t"+bestoption[2]+"\t"+bestoption[3]+"\t"+bestoption[4]+"\t")
-        bestout.write(str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), epdata[0], space))+"\n")
-        repout.write(str(zoid_place( int(zoid_col), int(zoid_rot), int(zoid_actual_row), epdata[0], space))+"\n")
+        bestout.write(str(zoid_place( int(col), int(rot), int(row)+2, line[curr_zoid_ix], space))+"\n")
+        repout.write(str(zoid_place( int(col), int(rot), int(row)+2, line[curr_zoid_ix], space))+"\n")  
   
         rank_by_ep[ep_num] = str(rank)
         num_options = len(options_byep[ep_num])
