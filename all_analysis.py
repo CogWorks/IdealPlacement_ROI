@@ -192,14 +192,14 @@ for line in game_data:
 
     move_rank = findmove_rank(options_byep, ep_num, zoid_rot, zoid_col, zoid_row)
     if move_rank == None and i < len(options_byep):
-        bestoption = options_byep[str(i)][len(options_byep[str(i)])-1]
+        bestoption = options_byep[str(i)][0]
         row = bestoption[1]
         col = bestoption[2]
         rot = bestoption[3]
  
         bestout.write(line[ep_num_ix] + "\t" + bestoption[0]+"\t"+bestoption[1]+"\t"+bestoption[2]+"\t"+bestoption[3]+"\t"+bestoption[4]+"\t")
-        bestout.write(str(zoid_place( int(col), int(rot), int(row)+2, line[curr_zoid_ix], space))+"\n")
-        repout.write(str(zoid_place( int(col), int(rot), int(row)+2, line[curr_zoid_ix], space))+"\n")        
+        bestout.write(str(zoid_place( int(col), int(rot), int(row), line[curr_zoid_ix], space))+"\n")
+        repout.write(str(zoid_place( int(col), int(rot), int(row), line[curr_zoid_ix], space))+"\n")        
     
         outline += (line[ep_num_ix] + "\t" + line[curr_zoid_ix] + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t" + "NA" + "\t")
         outline += ("NA" + '\t')
@@ -208,15 +208,15 @@ for line in game_data:
 
     elif move_rank != None and i < len(options_byep):
         (rank, epdata) = move_rank
-        bestoption = options_byep[str(i)][len(options_byep[str(i)])-1]
+        bestoption = options_byep[str(i)][0]
 
         row = bestoption[1]
         col = bestoption[2]
         rot = bestoption[3]
 
         bestout.write(line[ep_num_ix] + "\t" + bestoption[0]+"\t"+bestoption[1]+"\t"+bestoption[2]+"\t"+bestoption[3]+"\t"+bestoption[4]+"\t")
-        bestout.write(str(zoid_place( int(col), int(rot), int(row)+2, line[curr_zoid_ix], space))+"\n")
-        repout.write(str(zoid_place( int(col), int(rot), int(row)+2, line[curr_zoid_ix], space))+"\n")  
+        bestout.write(str(zoid_place( int(col), int(rot), int(row), line[curr_zoid_ix], space))+"\n")
+        repout.write(str(zoid_place( int(col), int(rot), int(row), line[curr_zoid_ix], space))+"\n")  
   
         rank_by_ep[ep_num] = str(rank)
         num_options = len(options_byep[ep_num])

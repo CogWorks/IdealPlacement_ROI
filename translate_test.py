@@ -65,17 +65,48 @@ space.append([0,0,0,0,0,0,0,0,0,0])
 space.append([0,0,0,0,0,0,0,0,0,0])
 space.append([0,0,0,0,0,0,0,0,0,0])
 def zoid_place( col, rot, row, zoid, space):
+        if (zoid == "I") and (rot == 1 or rot ==3):
+            row+=3
+
+        elif (zoid == "J") and (rot == 1 or rot == 3):
+            row+=2
+        elif (zoid == "J" ):
+            row+=1
+
+        elif (zoid == "L") and (rot == 1 or rot == 3):
+            row+=2
+        elif (zoid == "L" ):
+            row+=1
+        
+        elif (zoid == "S") and (rot == 1 or rot == 3):
+            row+=2
+        elif (zoid == "S"):
+            row+=1
+        
+        elif (zoid == "Z") and (rot == 1 or rot ==3):
+            row+=2
+        elif (zoid == "Z"):
+            row+=1
+        
+        elif (zoid == "T") and (rot == 1 or rot == 3):
+            row+=2
+        elif (zoid == "T"):
+            row+=1
+
+        elif (zoid == "O"):
+            row+=1
+
         x = col
         y = len(space) - row - 1
         ix = x
         iy = y
         ends_game = False
-        for i in shapes[zoid][rot]:
+        for i in shapes[zoid][rot]: 
             for j in i:
                 if iy < 0:
                     ends_game = True
                 if j != 0 and iy >= 0:
-                    #print("stamping",iy,ix)
+                    # print("stamping",iy,ix)
                     space[iy][ix] = 2
                 ix += 1
             ix = x
