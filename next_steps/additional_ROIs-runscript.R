@@ -1,5 +1,5 @@
-
-setwd("/Users/Matthew/Projects/NewROIs")
+### ONLY RUN THIS AFTER YOU HAVE CLONED THE "TetrisParsing" REPO
+setwd("/SET/WORKING/DIRECTORY")
 remote_run = parsed = F
 
 ### the only variables you should have to change are 
