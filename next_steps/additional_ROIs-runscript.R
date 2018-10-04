@@ -118,6 +118,6 @@ g$classify()
 
 
 
-sp1 <- g$scanpath(rois = rois_old)
-sp2 <- g$scanpath(rois = compiledrois)
+sp1 <- g$scanpath(game_number > 0, rois = rois_old)
+sp2 <- g$scanpath(game_number > 0, rois = compiledrois)
 
